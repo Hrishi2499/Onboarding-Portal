@@ -8,12 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "onboardees")
-public class Onboardees {
+@Table(name = "Users")
+public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long ID;
+	private long Id;
+	
+	@Column(name = "email_id", unique = true)
+	private String emailId;
+	
+	@Column(name = "password")
+	private String password;
 	
 	@Column(name = "first_name")
 	private String firstName;
@@ -21,51 +27,60 @@ public class Onboardees {
 	@Column(name = "last_name")
 	private String lastName;
 	
-	@Column(name = "email_id", unique = true)
-	private String emailId;
+	public Users() {}
 	
-	public Onboardees() {}
-	
-	public Onboardees(String firstName, String lastName, String emailId) {
+	public Users(String emailId, String password, String firstName, String lastName) {
 		super();
+		this.emailId = emailId;
+		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+	}
+
+	public long getId() {
+		return Id;
+	}
+
+	public void setId(long id) {
+		Id = id;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
 
-	public long getID() {
-		return ID;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setID(long iD) {
-		ID = iD;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
 	}
 
 	@Override
 	public String toString() {
-		return "Onboardees [ID=" + ID + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
-				+ "]";
+		return "Users [Id=" + Id + ", emailId=" + emailId + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + "]";
 	}
-	
-	
-
+		
 }
