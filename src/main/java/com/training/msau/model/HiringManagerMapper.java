@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HiringManagerMapper implements RowMapper<HiringManager>{
-	
+
 	@Override
 	public HiringManager mapRow(ResultSet rs, int rowNum) throws SQLException{
 		HiringManager hm = new HiringManager();
-		hm.setEmailId(rs.getString("email"));
-		hm.sethId(rs.getLong("hm_id"));
-		hm.setName(rs.getString("name"));
+		hm.sethId((long)rs.getLong("hm_id"));
+		hm.setEmailId((String)rs.getString("email"));
+		hm.setName((String)rs.getString("name"));
 		
 		return hm;
 	}
