@@ -8,11 +8,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OnboardProcessMapper implements RowMapper<OnboardProcess>{
+public class OnboardMapper implements RowMapper<Onboard>{
 	
 	@Override
-	public OnboardProcess mapRow(ResultSet rs, int rowNum) throws SQLException{
-		OnboardProcess op = new OnboardProcess();
+	public Onboard mapRow(ResultSet rs, int rowNum) throws SQLException{
+		Onboard op = new Onboard();
 		op.setBgStatus((String)rs.getString("bg_status"));
 		op.setCandidateId((long)rs.getLong("candidate_id"));
 		op.setEta((Date)rs.getDate("eta"));

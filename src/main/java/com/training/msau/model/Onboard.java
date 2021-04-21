@@ -5,7 +5,7 @@ import java.sql.Date;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OnboardProcess {
+public class Onboard {
 	
 	private long onboardId;
 	private long candidateId;
@@ -14,6 +14,16 @@ public class OnboardProcess {
 	private String bgStatus;
 	private Date startDate;
 	private Date eta;
+	
+	private Candidate candidate;
+	private HiringManager hiringManager;
+	
+	public Candidate getCandidate() {
+		return candidate;
+	}
+	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
+	}
 	public long getOnboardId() {
 		return onboardId;
 	}
@@ -55,6 +65,12 @@ public class OnboardProcess {
 	}
 	public void setEta(Date eta) {
 		this.eta = eta;
+	}
+	public HiringManager getHiringManager() {
+		return hiringManager;
+	}
+	public void setHiringManager(HiringManager hiringManager) {
+		this.hiringManager = hiringManager;
 	}
 	
 	

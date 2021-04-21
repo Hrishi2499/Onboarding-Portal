@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.training.msau.repository.CandidateDAO;
 
 @RestController
 @RequestMapping("/api/v1/")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CandidateController {
 
 	@Autowired
@@ -25,7 +27,7 @@ public class CandidateController {
 		return candidateDAO.selectAll();
 	}
 	
-	@GetMapping("/candidates/{id}")
+	@GetMapping("/candidates/candidateId={id}")
 	public Candidate getCandidatesbyId(@PathVariable("id") long id){
 		return candidateDAO.selectById(id);
 	}

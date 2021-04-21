@@ -13,8 +13,8 @@ public class HiringManagerMapper implements RowMapper<HiringManager>{
 	public HiringManager mapRow(ResultSet rs, int rowNum) throws SQLException{
 		HiringManager hm = new HiringManager();
 		hm.sethId((long)rs.getLong("hm_id"));
-		hm.setEmailId((String)rs.getString("email"));
-		hm.setName((String)rs.getString("name"));
+		hm.setEmail((String)rs.getString("email"));
+		hm.setName((String)rs.getString("username"));
 		
 		return hm;
 	}
