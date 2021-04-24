@@ -20,6 +20,7 @@ public class OnboardMapper implements RowMapper<Onboard>{
 		op.setOnboardId((long)rs.getLong("onboard_id"));
 		op.setOnboardStatus((String)rs.getString("onboard_status"));
 		op.setStartDate((Date)rs.getDate("start_date"));
+		op.setLocation(rs.getString("location"));
 		
 		return op;
 		

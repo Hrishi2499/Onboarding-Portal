@@ -10,6 +10,8 @@ public class Candidate {
 	private String lastName;
 	private String email;
 	private String college;
+	private boolean onboardStarted;
+	
 	public long getCandidateId() {
 		return candidateId;
 	}
@@ -39,6 +41,12 @@ public class Candidate {
 	}
 	public void setCollege(String college) {
 		this.college = college;
+	}
+	public boolean isOnboardStarted() {
+		return onboardStarted;
+	}
+	public void setOnboardStarted(boolean onboardStarted) {
+		this.onboardStarted = onboardStarted;
 	}
 	
 	

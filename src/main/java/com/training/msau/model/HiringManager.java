@@ -7,7 +7,7 @@ public class HiringManager {
 
 	private long hmId;
 	private String name;
-	private String email;
+	private String hm_email;
 	
 	public long gethId() {
 		return hmId;
@@ -21,11 +21,11 @@ public class HiringManager {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String gethmEmail() {
+		return hm_email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void sethmEmail(String email) {
+		this.hm_email = email;
 	}
 	
 	

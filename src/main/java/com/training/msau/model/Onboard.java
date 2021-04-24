@@ -12,6 +12,7 @@ public class Onboard {
 	private long hmId;
 	private String onboardStatus;
 	private String bgStatus;
+	private String location;
 	private Date startDate;
 	private Date eta;
 	
@@ -71,6 +72,12 @@ public class Onboard {
 	}
 	public void setHiringManager(HiringManager hiringManager) {
 		this.hiringManager = hiringManager;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	
