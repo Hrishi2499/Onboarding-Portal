@@ -13,7 +13,7 @@ public class CandidateSkillMapper implements RowMapper<CandidateSkill>{
 	 public CandidateSkill mapRow(ResultSet rs, int rowNum) throws SQLException {
 		CandidateSkill cs = new CandidateSkill();
 		cs.setCandidateId((long)rs.getLong("candidate_id"));
-		cs.setSkillId((long)rs.getLong("skill_id"));
+		cs.setSkill(rs.getString("skill"));
 		
 		return cs;
 	}

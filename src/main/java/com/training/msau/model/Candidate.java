@@ -1,5 +1,8 @@
 package com.training.msau.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,6 +14,8 @@ public class Candidate {
 	private String email;
 	private String college;
 	private boolean onboardStarted;
+	
+	private List<String> skills = new ArrayList<String>();
 	
 	public long getCandidateId() {
 		return candidateId;
@@ -47,6 +52,16 @@ public class Candidate {
 	}
 	public void setOnboardStarted(boolean onboardStarted) {
 		this.onboardStarted = onboardStarted;
+	}
+	public List<String> getSkills() {
+		return skills;
+	}
+	public void setSkills(List<String> skills) {
+		this.skills = skills;
+	}
+	
+	public void addSkills(String skill) {
+		this.skills.add(skill);
 	}
 	
 	

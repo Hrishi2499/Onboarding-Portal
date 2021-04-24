@@ -1,12 +1,20 @@
 package com.training.msau.repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-	
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import com.training.msau.model.CandidateMapper;
+import com.training.msau.model.CandidateSkillMapper;
 import com.training.msau.exception.ResourceNotFoundException;
 import com.training.msau.model.Candidate;
 
@@ -20,43 +28,59 @@ public class CandidateDAO {
 	@Autowired
 	CandidateMapper candidateMapper = new CandidateMapper();
 	
+	@Autowired
+	CandidateSkillMapper candidateSkillMapper = new CandidateSkillMapper();
+	
 	public List<Candidate> selectAll(){
 		String sql = "select * from candidate where onboard_started = false";
 		return jdbcTemplate.query(sql, candidateMapper);
 	}
 	
+	public List<Candidate> selectWithSkillAll(){
+		String sql = "select * from candidate, candidate_skill "
+				+ " where candidate.candidate_id = candidate_skill.candidate_id and onboard_started = false";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Candidate>>() {
+			
+			@Override
+			public List<Candidate> extractData(ResultSet rs)  throws SQLException, DataAccessException{
+				//List<Candidate> list = new ArrayList<Candidate>();
+				Map<Long, Candidate> candidate_map = new HashMap<>();
+				while(rs.next()) {
+					Long candidateId = rs.getLong("candidate_id");
+					if(candidate_map.containsKey(candidateId)) {
+						candidate_map.get(candidateId).getSkills().add(rs.getString("skill"));
+					}
+					else {
+						Candidate candidate = new Candidate();
+						candidate = candidateMapper.mapRow(rs, 0);
+						candidate.getSkills().add(rs.getString("skill"));
+						candidate_map.put(candidateId, candidate);						
+					}
+				}
+				return new ArrayList<Candidate>(candidate_map.values());
+			}
+		});
+	}
+	
 	public Candidate selectById(long id) {
-		String sql = "select * from candidate where candidate_id = ? and onboard_started = false";
-		try {
-		return jdbcTemplate.queryForObject(sql, candidateMapper, new Object[] {id});
-		}catch(Exception e) {
-			throw new ResourceNotFoundException("The candidate is already in onboarding phase");
-		}
-	}
-	
-	public Candidate selectByEmail(String email) {
-		String sql = "select * from candidate where email = ? and onboard_started = false";
-		return jdbcTemplate.queryForObject(sql, candidateMapper, new Object[] {email});
-	}
-	
-	public List<Candidate> selectByCollege(String college){
-		String sql = "select * from candidate where college = ? and onboard_started = false";
-		return jdbcTemplate.query(sql, candidateMapper, new Object[] {college});
-	}
-	
-	public List<Candidate> selectByFirstName(String firstName){
-		String sql = "select * from candidate where first_name = ? and onboard_started = false";
-		return jdbcTemplate.query(sql, candidateMapper, new Object[] {firstName});
-	}
-	
-	public List<Candidate> selectByLastName(String lastName){
-		String sql = "select * from candidate where last_name = ? and onboard_started = false";
-		return jdbcTemplate.query(sql, candidateMapper, new Object[] {lastName});
-	}
-	
-	public List<Candidate> selectByFullName(String firstName, String lastName){
-		String sql = "select * from candidate where first_name = ? and last_name = ? and onboard_started = false";
-		return jdbcTemplate.query(sql, candidateMapper, new Object[] {firstName, lastName});
-	}
+		String sql = "select * from candidate, candidate_skill "
+				+ " where candidate.candidate_id = candidate_skill.candidate_id and onboard_started = false and "
+				+ " candidate.candidate_id = ?";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Candidate>() {
+			
+			@Override
+			public Candidate extractData(ResultSet rs)  throws SQLException, DataAccessException{
+				//List<Candidate> list = new ArrayList<Candidate>();
+				Candidate candidate = new Candidate();
+				rs.next();
+				candidate = candidateMapper.mapRow(rs, 0);
+				candidate.getSkills().add(rs.getString("skill"));
+				while(rs.next()) {
+					candidate.getSkills().add(rs.getString("skill"));
+				}
+				return candidate;
+			}
+		}, new Object[] {id});
+	}	
 	
 }

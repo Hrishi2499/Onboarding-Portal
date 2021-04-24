@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class CandidateSkill {
 
 	private long candidateId;
-	private long skillId;
+	private String skill;
 	
 	public long getCandidateId() {
 		return candidateId;
@@ -14,11 +14,11 @@ public class CandidateSkill {
 	public void setCandidateId(long candidateId) {
 		this.candidateId = candidateId;
 	}
-	public long getSkillId() {
-		return skillId;
+	public String getSkill() {
+		return skill;
 	}
-	public void setSkillId(long skillId) {
-		this.skillId = skillId;
+	public void setSkill(String skill) {
+		this.skill = skill;
 	}
 	
 	
