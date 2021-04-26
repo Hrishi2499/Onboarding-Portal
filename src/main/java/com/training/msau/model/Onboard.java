@@ -11,10 +11,12 @@ public class Onboard {
 	private long candidateId;
 	private long hmId;
 	private String onboardStatus;
-	private String bgStatus;
 	private String location;
 	private Date startDate;
 	private Date eta;
+	private boolean bgStatus;
+	private boolean graduation;
+	private boolean training;
 	
 	private Candidate candidate;
 	private HiringManager hiringManager;
@@ -49,12 +51,7 @@ public class Onboard {
 	public void setOnboardStatus(String onboardStatus) {
 		this.onboardStatus = onboardStatus;
 	}
-	public String getBgStatus() {
-		return bgStatus;
-	}
-	public void setBgStatus(String bgStatus) {
-		this.bgStatus = bgStatus;
-	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -78,6 +75,24 @@ public class Onboard {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public boolean isBgStatus() {
+		return bgStatus;
+	}
+	public void setBgStatus(boolean bgStatus) {
+		this.bgStatus = bgStatus;
+	}
+	public boolean isGraduation() {
+		return graduation;
+	}
+	public void setGraduation(boolean graduation) {
+		this.graduation = graduation;
+	}
+	public boolean isTraining() {
+		return training;
+	}
+	public void setTraining(boolean training) {
+		this.training = training;
 	}
 	
 	

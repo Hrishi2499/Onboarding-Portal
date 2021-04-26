@@ -144,14 +144,23 @@ public class OnboardDAO {
 	@Transactional
 	public synchronized List<Onboard> addOnboard(Onboard onboard){
 		int result = 0;
+		String onboardStatus = "Started";
 		List<Onboard> added = new ArrayList<>();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String date = simpleDateFormat.format(new Date());
 		
-		String sql = "insert into onboard (candidate_id, hm_id,bg_status,onboard_status,eta,start_date,location) values (?,?,?,?,?,?,?)";
-		Object[] values = new Object[] {onboard.getCandidateId(), onboard.getHmId(),
-										onboard.getBgStatus(), onboard.getOnboardStatus(),
-										onboard.getEta(), date, onboard.getLocation()};
+		String sql = "insert into onboard (candidate_id, hm_id, onboard_status,eta, start_date, location,"
+					+ "	bg_status, graduation, training) "
+					+ " values (?,?,?,?,?,?,?,?,?)";
+		
+		if(onboard.isBgStatus() && onboard.isGraduation() && onboard.isTraining())
+			onboardStatus = "Completed";
+		if(onboard.isBgStatus() || onboard.isGraduation() || onboard.isTraining())
+			onboardStatus = "In Progress";
+		
+		Object[] values = new Object[] {onboard.getCandidateId(), onboard.getHmId(), onboardStatus,
+										onboard.getEta(), date, onboard.getLocation(),
+										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining()};
 		try {
 			result = jdbcTemplate.update(sql, values);
 		}catch(DuplicateKeyException exception){
@@ -169,13 +178,21 @@ public class OnboardDAO {
 	@Transactional
 	public synchronized List<Onboard> updateOnboard(Onboard onboard){
 		int result = 0;
+		String onboardStatus = "Started";
 		List<Onboard> updated = new ArrayList<>();
 		
-		String sql = "update onboard set hm_id = ?, bg_status = ?, onboard_status = ?,eta = ?,location = ? "
+		String sql = "update onboard set hm_id = ?, onboard_status = ?,eta = ?,location = ?, "
+					+ " bg_status = ?, graduation = ?, training = ? "
 					+ " where onboard_id = ?";
-		Object[] values = new Object[] {onboard.getHmId(), onboard.getBgStatus(), 
-										onboard.getOnboardStatus(), onboard.getEta(), 
-										onboard.getLocation(), onboard.getOnboardId()};
+		
+		if(onboard.isBgStatus() && onboard.isGraduation() && onboard.isTraining())
+			onboardStatus = "Completed";
+		else if(onboard.isBgStatus() || onboard.isGraduation() || onboard.isTraining())
+			onboardStatus = "In Progress";
+		
+		Object[] values = new Object[] {onboard.getHmId(), onboardStatus, onboard.getEta(), onboard.getLocation(), 
+										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining(), 
+										onboard.getOnboardId()};
 		try {
 			result = jdbcTemplate.update(sql, values);
 		}catch(DuplicateKeyException exception){

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.training.msau.model.CandidateMapper;
 import com.training.msau.model.CandidateSkillMapper;
-import com.training.msau.exception.ResourceNotFoundException;
 import com.training.msau.model.Candidate;
 
 
@@ -30,11 +29,6 @@ public class CandidateDAO {
 	
 	@Autowired
 	CandidateSkillMapper candidateSkillMapper = new CandidateSkillMapper();
-	
-	public List<Candidate> selectAll(){
-		String sql = "select * from candidate where onboard_started = false";
-		return jdbcTemplate.query(sql, candidateMapper);
-	}
 	
 	public List<Candidate> selectWithSkillAll(){
 		String sql = "select * from candidate, candidate_skill "
