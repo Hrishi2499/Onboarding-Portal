@@ -1,4 +1,4 @@
-package com.training.msau.repository;
+	package com.training.msau.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.training.msau.model.Onboard;
+import com.training.msau.model.OnboardLog;
 import com.training.msau.model.Candidate;
 import com.training.msau.model.CandidateMapper;
 import com.training.msau.model.HiringManager;
@@ -38,6 +39,9 @@ public class OnboardDAO {
 	
 	@Autowired
 	HiringManagerMapper hmMapper = new HiringManagerMapper();
+	
+	@Autowired
+	OnboardLogDAO onboardLogDAO = new OnboardLogDAO();
 	
 	public List<Onboard> selectAll(){
 		String sql = "select * from onboard, candidate, hiring_manager "
@@ -107,11 +111,24 @@ public class OnboardDAO {
 			case "all"        : break;
 			case "candidateId": baseSql +=  " and onboard.candidate_id = ?";
 								break;
-			case "onboardId": baseSql +=  " and onboard.onboard_id = ?";
+			case "onboardId"  : baseSql +=  " and onboard.onboard_id = ?";
 								break;
-								
-			case "location"   : baseSql +=  " and onboard.location = ?";
+			case "hmId"       : baseSql +=  " and onboard.hm_id = ?";
+								break;		
+			case "location"   : baseSql +=  " and onboard.location like ?";
 							    break;
+			case "skill"      : baseSql +=  " and candidate.skill like ?";
+		    					break;
+			case "firstName"  : baseSql +=  " and candidate.first_name like ?";
+								break;
+			case "lastName"   : baseSql +=  " and candidate.last_name like ?";
+								break;
+			case "college"    : baseSql +=  " and candidate.college like ?";
+								break;
+			case "managerName": baseSql +=  " and hiring_manager.username like ?";
+								break;
+			case "onboardStatus": baseSql +=  " and onboard.onboard_status like ?";
+								break;
 			default:
 						throw new ResourceNotFoundException("Invalid option");
 			
@@ -149,9 +166,9 @@ public class OnboardDAO {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String date = simpleDateFormat.format(new Date());
 		
-		String sql = "insert into onboard (candidate_id, hm_id, onboard_status,eta, start_date, location,"
-					+ "	bg_status, graduation, training) "
-					+ " values (?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into onboard (candidate_id, hm_id, onboard_status,eta, start_date, location, "
+					+ "	bg_status, graduation, training, user, user_email) "
+					+ " values (?,?,?,?,?,?,?,?,?,?,?)";
 		
 		if(onboard.isBgStatus() && onboard.isGraduation() && onboard.isTraining())
 			onboardStatus = "Completed";
@@ -160,7 +177,8 @@ public class OnboardDAO {
 		
 		Object[] values = new Object[] {onboard.getCandidateId(), onboard.getHmId(), onboardStatus,
 										onboard.getEta(), date, onboard.getLocation(),
-										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining()};
+										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining(),
+										onboard.getUser(), onboard.getUserEmail()};
 		try {
 			result = jdbcTemplate.update(sql, values);
 		}catch(DuplicateKeyException exception){
@@ -171,6 +189,11 @@ public class OnboardDAO {
 			//Update the status of candidate so that the candidate is not displayed in candidate list
 			String updateQuery = "update candidate set onboard_started = true where candidate_id = ?";
 			this.jdbcTemplate.update(updateQuery, onboard.getCandidateId());
+			
+			OnboardLog onboardLog = new OnboardLog();
+			onboardLog.setAction("Insert");
+			onboardLog.setOnboard(added.get(0));
+			this.onboardLogDAO.addOnboardLog(onboardLog);
 		}
 		return added;
 	}
@@ -200,12 +223,18 @@ public class OnboardDAO {
 		}
 		if(result == 1) { //update successful
 			updated = selectOnboardbyOneField("candidateId", new Object[] {onboard.getCandidateId()});
+			
+			OnboardLog onboardLog = new OnboardLog();
+			onboardLog.setAction("Update");
+			onboardLog.setOnboard(updated.get(0));
+			this.onboardLogDAO.addOnboardLog(onboardLog);
 		}
+		
 		return updated;
 	}
 	
 	@Transactional
-	public synchronized List<Onboard> deleteOnboard(long onboardId){
+	public synchronized List<Onboard> deleteOnboard(long onboardId, String user, String userEmail){
 		int result = 0;
 		List<Onboard> deleted;
 		deleted = selectOnboardbyOneField("onboardId", new Object[] {onboardId});
@@ -220,13 +249,20 @@ public class OnboardDAO {
 		}
 		
 		if(result == 0) { //delete unsuccessful
-			deleted = null; 
+			deleted = null;
 		}
 		
 		else {
 			long candidateId = deleted.get(0).getCandidateId();
 			String updateSql = "update candidate set onboard_started = false where candidate_id= ?";
 			jdbcTemplate.update(updateSql, candidateId);
+			
+			OnboardLog onboardLog = new OnboardLog();
+			onboardLog.setAction("Delete");
+			deleted.get(0).setUser(user);
+			deleted.get(0).setUserEmail(userEmail);
+			onboardLog.setOnboard(deleted.get(0));
+			this.onboardLogDAO.addOnboardLog(onboardLog);
 		}
 		return deleted;
 	}

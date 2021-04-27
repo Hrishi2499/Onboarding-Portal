@@ -30,18 +30,53 @@ public class OnboardController {
 	}
 	
 	@GetMapping("/onboards/candidateId={id}")
-	public Onboard getOnboardByCandidateId(@PathVariable("id") long id){
-		return onboardDAO.selectOnboardbyOneField("candidateId", new Object[] {id}).get(0);
+	public List<Onboard> getOnboardByCandidateId(@PathVariable("id") long id){
+		return onboardDAO.selectOnboardbyOneField("candidateId", new Object[] {id});
 	}
 	
 	@GetMapping("/onboards/onboardId={id}")
-	public Onboard getOnboardByOnboardId(@PathVariable("id") long id){
-		return onboardDAO.selectOnboardbyOneField("onboardId", new Object[] {id}).get(0);
+	public List<Onboard> getOnboardByOnboardId(@PathVariable("id") long id){
+		return onboardDAO.selectOnboardbyOneField("onboardId", new Object[] {id});
 	}
 	
-	@GetMapping("/onboards/location={loc}")
-	public List<Onboard> getOnboardByLocation(@PathVariable("loc") String loc){
-		return onboardDAO.selectOnboardbyOneField("location", new Object[] {loc});
+	@GetMapping("/onboards/hmId={hmId}")
+	public List<Onboard> getOnboardByhmId(@PathVariable("hmId") long hmId){
+		return onboardDAO.selectOnboardbyOneField("hmId", new Object[] {hmId});
+	}
+	
+	@GetMapping("/onboards/location={location}")
+	public List<Onboard> getOnboardByLocation(@PathVariable("location") String location){
+		return onboardDAO.selectOnboardbyOneField("location", new Object[] {"%" + location + "%"});
+	}
+	
+	@GetMapping("/onboards/skill={skill}")
+	public List<Onboard> getOnboardBySkill(@PathVariable("skill") String skill){
+		return onboardDAO.selectOnboardbyOneField("skill", new Object[] {"%" + skill + "%"});
+	}
+	
+	@GetMapping("/onboards/firstName={fName}")
+	public List<Onboard> getOnboardByFirstName(@PathVariable("fName") String fName){
+		return onboardDAO.selectOnboardbyOneField("firstName", new Object[] {"%" + fName + "%"});
+	}
+	
+	@GetMapping("/onboards/lastName={lName}")
+	public List<Onboard> getOnboardByLastName(@PathVariable("lName") String lName){
+		return onboardDAO.selectOnboardbyOneField("lastName", new Object[] {"%" + lName + "%"});
+	}
+	
+	@GetMapping("/onboards/college={college}")
+	public List<Onboard> getOnboardByCollege(@PathVariable("college") String college){
+		return onboardDAO.selectOnboardbyOneField("college", new Object[] {"%" + college + "%"});
+	}
+	
+	@GetMapping("/onboards/managerName={manager}")
+	public List<Onboard> getOnboardByManagerName(@PathVariable("manager") String manager){
+		return onboardDAO.selectOnboardbyOneField("managerName", new Object[] {"%" + manager + "%"});
+	}
+	
+	@GetMapping("/onboards/onboardStatus={status}")
+	public List<Onboard> getOnboardByOnboardStatus(@PathVariable("status") String status){
+		return onboardDAO.selectOnboardbyOneField("onboardStatus", new Object[] {"%" + status + "%"});
 	}
 	
 	@PutMapping("/onboards")
@@ -54,9 +89,11 @@ public class OnboardController {
 		return onboardDAO.updateOnboard(onboard);
 	}
 	
-	@DeleteMapping("/onboards/onboardId={onboardId}")
-	public List<Onboard> deleteOnboard(@PathVariable long onboardId){
-		return onboardDAO.deleteOnboard(onboardId);
+	@DeleteMapping("/onboards/onboardId={onboardId}&user={user}&userEmail={userEmail}")
+	public List<Onboard> deleteOnboard(@PathVariable("onboardId") long onboardId,
+									   @PathVariable("user") String user,
+									   @PathVariable("userEmail") String userEmail){
+		return onboardDAO.deleteOnboard(onboardId,user,userEmail);
 	}
 	
 }

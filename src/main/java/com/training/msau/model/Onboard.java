@@ -17,6 +17,8 @@ public class Onboard {
 	private boolean bgStatus;
 	private boolean graduation;
 	private boolean training;
+	private String user;
+	private String userEmail;
 	
 	private Candidate candidate;
 	private HiringManager hiringManager;
@@ -94,6 +96,17 @@ public class Onboard {
 	public void setTraining(boolean training) {
 		this.training = training;
 	}
-	
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	
 }

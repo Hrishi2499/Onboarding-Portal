@@ -19,6 +19,7 @@ public class CandidateMapper implements RowMapper<Candidate>{
 		candidate.setFirstName((String)rs.getString("first_name"));
 		candidate.setLastName((String)rs.getString("last_name"));
 		candidate.setOnboardStarted(rs.getBoolean("onboard_started"));
+		candidate.setSkill(rs.getString("skill"));
 		
 		return candidate;
 	}

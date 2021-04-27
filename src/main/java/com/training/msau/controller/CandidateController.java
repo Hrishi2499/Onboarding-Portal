@@ -22,12 +22,33 @@ public class CandidateController {
 	
 	@GetMapping("/candidates")
 	public List<Candidate> getAllCandidates(){
-		return candidateDAO.selectWithSkillAll();
+		return candidateDAO.selectAllCandidate();
 	}
 	
-	@GetMapping("/candidates/candidateId={id}")
-	public Candidate getCandidatesbyId(@PathVariable("id") long id){
+	@GetMapping("/candidates/candidateId={param}")
+	public List<Candidate> getCandidatesbyId(@PathVariable("param") long id){
 		return candidateDAO.selectById(id);
 	}
+	
+	@GetMapping("/candidates/firstName={param}")
+	public List<Candidate> getCandidatesbyFirstName(@PathVariable("param") String param){
+		return candidateDAO.selectByFirstName(param);
+	}
+	
+	@GetMapping("/candidates/lastName={param}")
+	public List<Candidate> getCandidatesbyLastName(@PathVariable("param") String param){
+		return candidateDAO.selectByLastName(param);
+	}
+	
+	@GetMapping("/candidates/college={param}")
+	public List<Candidate> getCandidatesbyCollege(@PathVariable("param") String param){
+		return candidateDAO.selectByCollege(param);
+	}
+	
+	@GetMapping("/candidates/skill={param}")
+	public List<Candidate> getCandidatesbySkill(@PathVariable("param") String param){
+		return candidateDAO.selectBySkill(param);
+	}
+	
 		
 }

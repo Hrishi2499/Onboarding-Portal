@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,11 @@ public class HiringManagerController {
 	@GetMapping("/hiringManagers")
 	public List<HiringManager> getAllHiringManagers(){
 		return this.hiringManagerDAO.selectAll();		
+	}
+	
+	@GetMapping("/hiringManagers/hmEmail={hmEmail}")
+	public HiringManager getHiringManagerByEmail(@PathVariable("hmEmail") String hmEmail){
+		return this.hiringManagerDAO.selectEmail(hmEmail);		
 	}
 
 }

@@ -23,6 +23,8 @@ public class OnboardMapper implements RowMapper<Onboard>{
 		op.setBgStatus(rs.getBoolean("bg_status"));
 		op.setTraining(rs.getBoolean("training"));
 		op.setGraduation(rs.getBoolean("graduation"));
+		op.setUser(rs.getString("user"));
+		op.setUserEmail(rs.getString("user_email"));
 		
 		return op;
 		

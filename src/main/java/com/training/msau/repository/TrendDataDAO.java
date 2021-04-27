@@ -41,8 +41,22 @@ public class TrendDataDAO {
 			}
 		});
 	}
+	
 	public int getHmIdCount() {
 		String sql = "select count(distinct(hm_id)) as count from onboard";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<Integer>(){
+			
+			@Override
+			public Integer extractData(ResultSet rs)  throws SQLException, DataAccessException{
+				rs.next();
+				return rs.getInt("count");
+			}
+		});
+	}
+	
+	public int getSkillCount() {
+		String sql = "select count(distinct(c.skill)) as count from onboard o, candidate c "
+				+ " where o.candidate_id = c.candidate_id";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Integer>(){
 			
 			@Override
@@ -111,6 +125,45 @@ public class TrendDataDAO {
 						years.add(year);
 					}
 					String column = rs.getString("hm_id");
+					if(! columns.contains(column)) {
+						columns.add(column);
+					}
+					
+					int row = columns.indexOf(column);
+					int col = years.indexOf(year);
+					
+					data[row][col] = rs.getLong("count(*)");
+ 				}
+				td.setYears(years);
+				td.setColumns(columns);
+				td.setData(data);
+				
+				return td;
+			}
+		});
+	}
+	
+	public TrendData getTrendBySkills() {
+		int yearCount = this.getYearCount();
+		int colCount = this.getSkillCount();
+		
+		String sql = "select year(o.eta), c.skill, count(*) from onboard o, candidate c "
+					+ " where o.candidate_id = c.candidate_id group by year(eta), c.skill";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<TrendData>() {
+			@Override
+			public TrendData extractData(ResultSet rs)  throws SQLException, DataAccessException{
+				TrendData td = new TrendData();
+				td.setName("Distribution by Skills");
+				List<String> years = new ArrayList<String>();
+				List<String> columns = new ArrayList<String>();
+				long[][] data = new long[colCount][yearCount];
+				
+				while(rs.next()) {
+					String year = rs.getString("year(o.eta)");
+					if(! years.contains(year)) {
+						years.add(year);
+					}
+					String column = rs.getString("skill");
 					if(! columns.contains(column)) {
 						columns.add(column);
 					}

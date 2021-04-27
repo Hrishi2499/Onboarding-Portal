@@ -8,24 +8,31 @@ public class HiringManager {
 	private long hmId;
 	private String name;
 	private String hm_email;
+	private String password;
 	
-	public long gethId() {
-		return hmId;
-	}
-	public void sethId(long hmId) {
-		this.hmId = hmId;
-	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String gethmEmail() {
+	public long getHmId() {
+		return hmId;
+	}
+	public void setHmId(long hmId) {
+		this.hmId = hmId;
+	}
+	public String getHm_email() {
 		return hm_email;
 	}
-	public void sethmEmail(String email) {
-		this.hm_email = email;
+	public void setHm_email(String hm_email) {
+		this.hm_email = hm_email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	
