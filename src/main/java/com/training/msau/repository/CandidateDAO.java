@@ -51,7 +51,7 @@ public class CandidateDAO {
 	
 	public List<Candidate> selectBySkill(String skill) {
 		String sql = "select * from candidate "
-				+ " where skill like ? order by onboard_started desc";
+				+ " where skill like ? order by onboard_started ";
 		return jdbcTemplate.query(sql, candidateMapper, new Object[] {"%" + skill + "%"});
 	}
 

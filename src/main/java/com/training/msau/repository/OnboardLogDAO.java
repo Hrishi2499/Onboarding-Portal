@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.training.msau.exception.InsertionException;
 import com.training.msau.exception.ResourceNotFoundException;
 import com.training.msau.model.Onboard;
 import com.training.msau.model.OnboardLog;
@@ -32,46 +32,6 @@ public class OnboardLogDAO {
 	
 	@Autowired
 	OnboardMapper onboardMapper = new OnboardMapper();
-	
-	public List<OnboardLog> selectAllLogs(){
-		String sql = "select * from onboard_log";
-		return this.jdbcTemplate.query(sql, new ResultSetExtractor<List<OnboardLog>>(){
-			
-			@Override
-			public List<OnboardLog> extractData(ResultSet rs) throws SQLException, DataAccessException{
-				List<OnboardLog> list = new ArrayList<>();
-				while(rs.next()) {
-					OnboardLog onboardLog = new OnboardLog();
-					Onboard onboard = new Onboard();
-					onboardLog = onboardLogMapper.mapRow(rs, 0);
-					onboard = onboardMapper.mapRow(rs, 0);
-					onboardLog.setOnboard(onboard);
-					list.add(onboardLog);
-				}
-				return list;
-			}
-		});
-	}
-	
-	public List<OnboardLog> selectLogsByLogID(long logId){
-		String sql = "select * from onboard_log where log_id = ?";
-		return this.jdbcTemplate.query(sql, new ResultSetExtractor<List<OnboardLog>>(){
-			
-			@Override
-			public List<OnboardLog> extractData(ResultSet rs) throws SQLException, DataAccessException{
-				List<OnboardLog> list = new ArrayList<>();
-				while(rs.next()) {
-					OnboardLog onboardLog = new OnboardLog();
-					Onboard onboard = new Onboard();
-					onboardLog = onboardLogMapper.mapRow(rs, 0);
-					onboard = onboardMapper.mapRow(rs, 0);
-					onboardLog.setOnboard(onboard);
-					list.add(onboardLog);
-				}
-				return list;
-			}
-		}, new Object[] {logId});
-	}
 	
 	public List<OnboardLog> selectOnboardLogbyOneField(String field, Object[] param) {
 		String baseSql = "select * from onboard_log ";
@@ -135,7 +95,7 @@ public class OnboardLogDAO {
 		try {
 			result = jdbcTemplate.update(sql, values);
 		}catch(DuplicateKeyException exception){
-			throw new InsertionException("Cannot Make this entry" + exception);
+			throw new DataIntegrityViolationException("Cannot Make this entry" + exception);
 		}
 		
 		return result;

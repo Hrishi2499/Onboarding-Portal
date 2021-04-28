@@ -16,44 +16,51 @@ public class Candidate {
 	public long getCandidateId() {
 		return candidateId;
 	}
-	public void setCandidateId(long candidateId) {
+	public Candidate setCandidateId(long candidateId) {
 		this.candidateId = candidateId;
+		return this;
 	}
 	public String getFirstName() {
 		return firstName;
 	}
-	public void setFirstName(String firstName) {
+	public Candidate setFirstName(String firstName) {
 		this.firstName = firstName;
+		return this;
 	}
 	public String getLastName() {
 		return lastName;
 	}
-	public void setLastName(String lastName) {
+	public Candidate setLastName(String lastName) {
 		this.lastName = lastName;
+		return this;
 	}
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
+	public Candidate setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 	public String getCollege() {
 		return college;
 	}
-	public void setCollege(String college) {
+	public Candidate setCollege(String college) {
 		this.college = college;
+		return this;
 	}
 	public boolean isOnboardStarted() {
 		return onboardStarted;
 	}
-	public void setOnboardStarted(boolean onboardStarted) {
+	public Candidate setOnboardStarted(boolean onboardStarted) {
 		this.onboardStarted = onboardStarted;
+		return this;
 	}
 	public String getSkill() {
 		return skill;
 	}
-	public void setSkill(String skill) {
+	public Candidate setSkill(String skill) {
 		this.skill = skill;
+		return this;
 	}
 
 	

@@ -26,87 +26,101 @@ public class Onboard {
 	public Candidate getCandidate() {
 		return candidate;
 	}
-	public void setCandidate(Candidate candidate) {
+	public Onboard setCandidate(Candidate candidate) {
 		this.candidate = candidate;
+		return this;
 	}
 	public long getOnboardId() {
 		return onboardId;
 	}
-	public void setOnboardId(long onboardId) {
+	public Onboard setOnboardId(long onboardId) {
 		this.onboardId = onboardId;
+		return this;
 	}
 	public long getCandidateId() {
 		return candidateId;
 	}
-	public void setCandidateId(long candidateId) {
+	public Onboard setCandidateId(long candidateId) {
 		this.candidateId = candidateId;
+		return this;
 	}
 	public long getHmId() {
 		return hmId;
 	}
-	public void setHmId(long hmId) {
+	public Onboard setHmId(long hmId) {
 		this.hmId = hmId;
+		return this;
 	}
 	public String getOnboardStatus() {
 		return onboardStatus;
 	}
-	public void setOnboardStatus(String onboardStatus) {
+	public Onboard setOnboardStatus(String onboardStatus) {
 		this.onboardStatus = onboardStatus;
+		return this;
 	}
 
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public Onboard setStartDate(Date startDate) {
 		this.startDate = startDate;
+		return this;
 	}
 	public Date getEta() {
 		return eta;
 	}
-	public void setEta(Date eta) {
+	public Onboard setEta(Date eta) {
 		this.eta = eta;
+		return this;
 	}
 	public HiringManager getHiringManager() {
 		return hiringManager;
 	}
-	public void setHiringManager(HiringManager hiringManager) {
+	public Onboard setHiringManager(HiringManager hiringManager) {
 		this.hiringManager = hiringManager;
+		return this;
 	}
 	public String getLocation() {
 		return location;
 	}
-	public void setLocation(String location) {
+	public Onboard setLocation(String location) {
 		this.location = location;
+		return this;
 	}
 	public boolean isBgStatus() {
 		return bgStatus;
 	}
-	public void setBgStatus(boolean bgStatus) {
+	public Onboard setBgStatus(boolean bgStatus) {
 		this.bgStatus = bgStatus;
+		return this;
 	}
 	public boolean isGraduation() {
 		return graduation;
 	}
-	public void setGraduation(boolean graduation) {
+	public Onboard setGraduation(boolean graduation) {
 		this.graduation = graduation;
+		return this;
 	}
 	public boolean isTraining() {
 		return training;
 	}
-	public void setTraining(boolean training) {
+	public Onboard setTraining(boolean training) {
 		this.training = training;
+		return this;
 	}
 	public String getUser() {
 		return user;
 	}
-	public void setUser(String user) {
+	public Onboard setUser(String user) {
 		this.user = user;
+		return this;
 	}
 	public String getUserEmail() {
 		return userEmail;
 	}
-	public void setUserEmail(String userEmail) {
+	public Onboard setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+		return this;
 	}
 	
 }

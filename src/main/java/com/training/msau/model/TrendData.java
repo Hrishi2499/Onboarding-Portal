@@ -11,29 +11,34 @@ public class TrendData {
 	private List<String> years;
 	private List<String> columns;
 	private long[][] data;
+	
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public TrendData setName(String name) {
 		this.name = name;
+		return this;
 	}
 	public List<String> getYears() {
 		return years;
 	}
-	public void setYears(List<String> years) {
+	public TrendData setYears(List<String> years) {
 		this.years = years;
+		return this;
 	}
 	public List<String> getColumns() {
 		return columns;
 	}
-	public void setColumns(List<String> columns) {
+	public TrendData setColumns(List<String> columns) {
 		this.columns = columns;
+		return this;
 	}
 	public long[][] getData() {
 		return data;
 	}
-	public void setData(long[][] data) {
+	public TrendData setData(long[][] data) {
 		this.data = data;
+		return this;
 	}	
 	
 	

@@ -13,26 +13,30 @@ public class HiringManager {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public HiringManager setName(String name) {
 		this.name = name;
+		return this;
 	}
 	public long getHmId() {
 		return hmId;
 	}
-	public void setHmId(long hmId) {
+	public HiringManager setHmId(long hmId) {
 		this.hmId = hmId;
+		return this;
 	}
 	public String getHm_email() {
 		return hm_email;
 	}
-	public void setHm_email(String hm_email) {
+	public HiringManager setHm_email(String hm_email) {
 		this.hm_email = hm_email;
+		return this;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public HiringManager setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 	
 	

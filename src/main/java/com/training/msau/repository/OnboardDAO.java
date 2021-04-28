@@ -43,66 +43,6 @@ public class OnboardDAO {
 	@Autowired
 	OnboardLogDAO onboardLogDAO = new OnboardLogDAO();
 	
-	public List<Onboard> selectAll(){
-		String sql = "select * from onboard, candidate, hiring_manager "
-				+ "where onboard.candidate_id = candidate.candidate_id and onboard.hm_id = hiring_manager.hm_id";
-		
-		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Onboard>>() {
-			
-			@Override
-			public List<Onboard> extractData(ResultSet rs)  throws SQLException, DataAccessException{
-				List<Onboard> list = new ArrayList<Onboard>();
-								
-				while(rs.next()) {
-					Onboard op = new Onboard();
-					Candidate candidate = new Candidate();
-					HiringManager hm = new HiringManager();
-					
-					op = onboardMapper.mapRow(rs, 0);
-					candidate = candidateMapper.mapRow(rs, 0);
-					hm = hmMapper.mapRow(rs, 0);
-					
-					op.setCandidate(candidate);
-					op.setHiringManager(hm);
-					
-					list.add(op);
-				}
-				return list;
-			}
-		});
-	}
-	
-	public Onboard selectOnboardbyCandidateId(long candidate_id){
-		String sql = "select * from onboard, candidate, hiring_manager "
-				+ " where onboard.candidate_id = candidate.candidate_id and onboard.hm_id = hiring_manager.hm_id "
-				+ " and onboard.candidate_id = ?";
-		
-		return jdbcTemplate.query(sql, new ResultSetExtractor<Onboard>() {
-			
-			@Override
-			public Onboard extractData(ResultSet rs)  throws SQLException, DataAccessException{
-					if(rs == null) {
-						return null;
-					}
-					
-					rs.next();
-					Onboard op = new Onboard();
-					Candidate candidate = new Candidate();
-					HiringManager hm = new HiringManager();
-					
-					op = onboardMapper.mapRow(rs, 0);
-					candidate = candidateMapper.mapRow(rs, 0);
-					hm = hmMapper.mapRow(rs, 0);
-					
-					op.setCandidate(candidate);
-					op.setHiringManager(hm);
-					
-					return op;
-			}
-		},
-				new Object[] {candidate_id});
-	}
-	
 	public List<Onboard> selectOnboardbyOneField(String field, Object[] param) {
 		String baseSql = "select * from onboard, candidate, hiring_manager "
 				+ " where onboard.candidate_id = candidate.candidate_id and onboard.hm_id = hiring_manager.hm_id ";
@@ -182,7 +122,7 @@ public class OnboardDAO {
 		try {
 			result = jdbcTemplate.update(sql, values);
 		}catch(DuplicateKeyException exception){
-			throw new InsertionException("Cannot Make this entry, EmployeeId: "+onboard.getCandidateId()+ exception);
+			throw new InsertionException("Cannot Make this entry, EmployeeId: "+onboard.getCandidateId());
 		}
 		if(result == 1) { //insert successful
 			added = selectOnboardbyOneField("candidateId", new Object[] {onboard.getCandidateId()});
@@ -205,7 +145,7 @@ public class OnboardDAO {
 		List<Onboard> updated = new ArrayList<>();
 		
 		String sql = "update onboard set hm_id = ?, onboard_status = ?,eta = ?,location = ?, "
-					+ " bg_status = ?, graduation = ?, training = ? "
+					+ " bg_status = ?, graduation = ?, training = ? , user = ?, user_email = ? "
 					+ " where onboard_id = ?";
 		
 		if(onboard.isBgStatus() && onboard.isGraduation() && onboard.isTraining())
@@ -214,7 +154,7 @@ public class OnboardDAO {
 			onboardStatus = "In Progress";
 		
 		Object[] values = new Object[] {onboard.getHmId(), onboardStatus, onboard.getEta(), onboard.getLocation(), 
-										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining(), 
+										onboard.isBgStatus(), onboard.isGraduation(), onboard.isTraining(), onboard.getUser(), onboard.getUserEmail(),
 										onboard.getOnboardId()};
 		try {
 			result = jdbcTemplate.update(sql, values);
