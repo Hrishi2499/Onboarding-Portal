@@ -23,7 +23,7 @@ public class TestTrendDataDAO {
 	
 	@Test
 	public void testGetLocationCount() {
-		assertEquals(2, trendDataDAO.getLocationCount());
+		assertEquals(3, trendDataDAO.getLocationCount());
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class TestTrendDataDAO {
 	public void testGetTrendByLocation() {
 		TrendData trend = trendDataDAO.getTrendByLocation();
 		assertNotNull(trend);
-		assertEquals(2, trend.getColumns().size());
+		assertEquals(3, trend.getColumns().size());
 	}
 	
 	@Test

@@ -76,7 +76,7 @@ public class TrendDataDAO {
 			@Override
 			public TrendData extractData(ResultSet rs)  throws SQLException, DataAccessException{
 				TrendData td = new TrendData();
-				td.setName("Distribution by Location");
+				td.setName("Trends according to Locations");
 				List<String> years = new ArrayList<String>();
 				List<String> columns = new ArrayList<String>();
 				long[][] data = new long[colCount][yearCount];
@@ -114,7 +114,7 @@ public class TrendDataDAO {
 			@Override
 			public TrendData extractData(ResultSet rs)  throws SQLException, DataAccessException{
 				TrendData td = new TrendData();
-				td.setName("Distribution by Manager");
+				td.setName("Trends according to Managers");
 				List<String> years = new ArrayList<String>();
 				List<String> columns = new ArrayList<String>();
 				long[][] data = new long[colCount][yearCount];
@@ -153,7 +153,7 @@ public class TrendDataDAO {
 			@Override
 			public TrendData extractData(ResultSet rs)  throws SQLException, DataAccessException{
 				TrendData td = new TrendData();
-				td.setName("Distribution by Skills");
+				td.setName("Trends according to Skills");
 				List<String> years = new ArrayList<String>();
 				List<String> columns = new ArrayList<String>();
 				long[][] data = new long[colCount][yearCount];

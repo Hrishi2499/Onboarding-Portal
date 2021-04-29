@@ -24,12 +24,12 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectAll(){
-		assertEquals(5, onboardDAO.selectOnboardbyOneField("all", null).size());
+		assertEquals(5, onboardDAO.selectAllOnboards().size());
 	}
 	
 	@Test
 	public void testSelectOnboardbyCandidateId(){
-		Onboard onboard = onboardDAO.selectOnboardbyOneField("candidateId", new Object[] {7}).get(0); 
+		Onboard onboard = onboardDAO.selectOnboardByCandidateId(7).get(0); 
 		assertNotNull(onboard);
 		assertEquals(7, onboard.getCandidateId());
 		assertEquals(41, onboard.getOnboardId());
@@ -37,7 +37,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyOnboardId(){
-		Onboard onboard = onboardDAO.selectOnboardbyOneField("onboardId", new Object[] {41}).get(0); 
+		Onboard onboard = onboardDAO.selectOnboardByOnboardId(41).get(0); 
 		assertNotNull(onboard);
 		assertEquals(41, onboard.getOnboardId());
 		assertEquals(7, onboard.getCandidateId());
@@ -45,9 +45,9 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyHmId(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("hmId", new Object[] {101}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByHmId(101); 
 		assertNotNull(onboards);
-		assertEquals(4, onboards.size());
+		assertEquals(3, onboards.size());
 		for(Onboard o: onboards) {
 			assertEquals(101, o.getHmId());
 		}
@@ -55,7 +55,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyLocation(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("location", new Object[] {"Bangalore"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByLocation("Bangalore"); 
 		assertNotNull(onboards);
 		assertEquals(2, onboards.size());
 		for(Onboard o: onboards) {
@@ -65,7 +65,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbySkill(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("skill", new Object[] {"Java"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardBySkill("Java"); 
 		assertNotNull(onboards);
 		assertEquals(2, onboards.size());
 		for(Onboard o: onboards) {
@@ -75,7 +75,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyFirstName(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("firstName", new Object[] {"%Hrishi%"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByFirstName("Hrishi"); 
 		assertNotNull(onboards);
 		assertEquals(2, onboards.size());
 		for(Onboard o: onboards) {
@@ -85,7 +85,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyLastName(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("lastName", new Object[] {"%Shenai%"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByLastName("Shenai"); 
 		assertNotNull(onboards);
 		assertEquals(1, onboards.size());
 		for(Onboard o: onboards) {
@@ -95,7 +95,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyCollege(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("college", new Object[] {"%DJ%"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByCollege("DJ"); 
 		assertNotNull(onboards);
 		assertEquals(3, onboards.size());
 		for(Onboard o: onboards) {
@@ -105,7 +105,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyManager(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("managerName", new Object[] {"%Manager%"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByManagerName("Manager"); 
 		assertNotNull(onboards);
 		assertEquals(5, onboards.size());
 		for(Onboard o: onboards) {
@@ -115,7 +115,7 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectOnboardbyOnboardStatus(){
-		List<Onboard> onboards = onboardDAO.selectOnboardbyOneField("onboardStatus", new Object[] {"%Completed%"}); 
+		List<Onboard> onboards = onboardDAO.selectOnboardByOnboardStatus("Completed"); 
 		assertNotNull(onboards);
 		assertEquals(3, onboards.size());
 		for(Onboard o: onboards) {
@@ -147,10 +147,10 @@ public class TestOnboardDAO {
 	@Transactional
 	@Test
 	public void testUpdateOnboard(){
-		Onboard onboard = onboardDAO.selectOnboardbyOneField("onboardId", new Object[] {56}).get(0);
+		Onboard onboard = onboardDAO.selectOnboardbyOneField("onboardId", new Object[] {48}).get(0);
 		onboard.setBgStatus(false);
 		onboard.setTraining(false);
-		onboard.setUser("Hrishikesh");
+		onboard.setUser("Hrishikesh Shenai");
 		Onboard updated = onboardDAO.updateOnboard(onboard).get(0);
 		assertNotNull(updated);
 		assertEquals(onboard.isBgStatus(), updated.isBgStatus());
@@ -161,7 +161,7 @@ public class TestOnboardDAO {
 	@Transactional
 	@Test
 	public void testDeleteOnboard(){
-		long onboardId = 69;
+		long onboardId = 100;
 		assertNull(onboardDAO.deleteOnboard(onboardId, null, null));
 	}
 	

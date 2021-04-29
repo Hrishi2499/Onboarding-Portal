@@ -23,13 +23,13 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testSelectAllLogs(){
-		assertEquals(25, onboardLogDAO.selectOnboardLogbyOneField("all", null).size());
+		assertEquals(28, onboardLogDAO.selectAllLogs().size());
 	}
 	
 	@Test
 	public void testLogsbyCandidateId(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("candidateId", new Object[] {1});
-		assertEquals(7, onboardLogs.size());
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByCandidateId(1);
+		assertEquals(10, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertEquals(1, ol.getOnboard().getCandidateId());
 		}
@@ -37,7 +37,7 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testLogsbyOnboardId(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("onboardId", new Object[] {47});
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByOnboardId(47);
 		assertEquals(3, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertEquals(47, ol.getOnboard().getOnboardId());
@@ -46,7 +46,7 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testLogsbyUser(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("user", new Object[] {"%Phantom%"});
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByUser("Phantom");
 		assertEquals(11, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertTrue(ol.getUser().contains("Phantom"));
@@ -55,8 +55,8 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testLogsbyYear(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("year", new Object[] {"2021"});
-		assertEquals(25, onboardLogs.size());
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByYear("2021");
+		assertEquals(28, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertEquals(ol.getTimestamp().toString().split("-")[0], "2021");
 		}
@@ -64,8 +64,8 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testLogsbyMonth(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("month", new Object[] {"04","2021"});
-		assertEquals(25, onboardLogs.size());
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByMonth("04", "2021");
+		assertEquals(28, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertEquals(ol.getTimestamp().toString().split("-")[0], "2021");
 			assertEquals(ol.getTimestamp().toString().split("-")[1], "04");
@@ -74,7 +74,7 @@ public class TestOnboardLogDAO {
 	
 	@Test
 	public void testLogsbyDate(){
-		List<OnboardLog> onboardLogs = onboardLogDAO.selectOnboardLogbyOneField("date", new Object[] {"2021-04-28"});
+		List<OnboardLog> onboardLogs = onboardLogDAO.selectLogByDate("2021-04-28");
 		assertEquals(12, onboardLogs.size());
 		for(OnboardLog ol: onboardLogs) {
 			assertEquals(ol.getTimestamp().toString().split("\\s")[0], "2021-04-28");
