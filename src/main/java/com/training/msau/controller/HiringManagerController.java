@@ -25,6 +25,11 @@ public class HiringManagerController {
 		return this.hiringManagerDAO.selectAll();		
 	}
 	
+	@GetMapping("/hiringManagers/hmId={id}")
+	public HiringManager getHiringManagerById(@PathVariable("id") long id){
+		return this.hiringManagerDAO.selectById(id);		
+	}
+	
 	@GetMapping("/hiringManagers/hmEmail={hmEmail}")
 	public HiringManager getHiringManagerByEmail(@PathVariable("hmEmail") String hmEmail){
 		return this.hiringManagerDAO.selectEmail(hmEmail);		

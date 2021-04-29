@@ -20,6 +20,10 @@ public class CandidateController {
 	@Autowired
 	private CandidateDAO candidateDAO;
 	
+	public CandidateDAO getDAO() {
+		return this.candidateDAO;
+	}
+	
 	@GetMapping("/candidates")
 	public List<Candidate> getAllCandidates(){
 		return candidateDAO.selectAllCandidate();
@@ -49,6 +53,5 @@ public class CandidateController {
 	public List<Candidate> getCandidatesbySkill(@PathVariable("param") String param){
 		return candidateDAO.selectBySkill(param);
 	}
-	
 		
 }

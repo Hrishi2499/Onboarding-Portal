@@ -33,6 +33,35 @@ public class OnboardLogDAO {
 	@Autowired
 	OnboardMapper onboardMapper = new OnboardMapper();
 	
+	public List<OnboardLog> selectAllLogs(){
+		return this.selectOnboardLogbyOneField("all", null);
+	}
+	
+	public List<OnboardLog> selectLogByCandidateId(long id){
+		return this.selectOnboardLogbyOneField("candidateId", new Object[] {id});
+	}
+	
+	public List<OnboardLog> selectLogByOnboardId(long id){
+		return this.selectOnboardLogbyOneField("onboardId", new Object[] {id});
+	}
+	
+	public List<OnboardLog> selectLogByUser(String user){
+		return this.selectOnboardLogbyOneField("user", new Object[] {"%" + user + "%"});
+	}
+	
+	public List<OnboardLog> selectLogByYear(String year){
+		return this.selectOnboardLogbyOneField("year", new Object[] {year});
+	}
+	
+	public List<OnboardLog> selectLogByMonth(String month, String year){
+		return this.selectOnboardLogbyOneField("month", new Object[] {month, year});
+	}
+	
+	public List<OnboardLog> selectLogByDate(String date){
+		return this.selectOnboardLogbyOneField("date", new Object[] {date});
+	}
+	
+	
 	public List<OnboardLog> selectOnboardLogbyOneField(String field, Object[] param) {
 		String baseSql = "select * from onboard_log ";
 		
@@ -46,7 +75,7 @@ public class OnboardLogDAO {
 								break;		
 			case "year"       : baseSql +=  " where year(time_stamp) = ? ";
 							    break;
-			case "month"      : baseSql +=  " where month(time_stamp) =? and year(time_stamp) = ? ";
+			case "month"      : baseSql +=  " where month(time_stamp) = ? and year(time_stamp) = ? ";
 		    					break;
 			case "date"       : baseSql +=  " where date(time_stamp) = ? ";
 								break;

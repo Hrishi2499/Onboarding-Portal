@@ -43,6 +43,50 @@ public class OnboardDAO {
 	@Autowired
 	OnboardLogDAO onboardLogDAO = new OnboardLogDAO();
 	
+	public List<Onboard> selectAllOnboards(){
+		return this.selectOnboardbyOneField("all", null);
+	}
+	
+	public List<Onboard> selectOnboardByCandidateId(long id){
+		return this.selectOnboardbyOneField("candidateId", new Object[] {id});
+	}
+	
+	public List<Onboard> selectOnboardByOnboardId(long id){
+		return this.selectOnboardbyOneField("onboardId", new Object[] {id});
+	}
+	
+	public List<Onboard> selectOnboardByHmId(long id){
+		return this.selectOnboardbyOneField("hmId", new Object[] {id});
+	}
+	
+	public List<Onboard> selectOnboardByLocation(String location){
+		return this.selectOnboardbyOneField("location", new Object[] {"%"+location+"%"});
+	}
+	
+	public List<Onboard> selectOnboardBySkill(String skill){
+		return this.selectOnboardbyOneField("skill", new Object[] {"%"+skill+"%"});
+	}
+	
+	public List<Onboard> selectOnboardByFirstName(String firstName){
+		return this.selectOnboardbyOneField("firstName", new Object[] {"%"+firstName+"%"});
+	}
+	
+	public List<Onboard> selectOnboardByLastName(String lastName){
+		return this.selectOnboardbyOneField("lastName", new Object[] {"%"+lastName+"%"});
+	}
+	
+	public List<Onboard> selectOnboardByCollege(String college){
+		return this.selectOnboardbyOneField("college", new Object[] {"%"+college+"%"});
+	}
+	
+	public List<Onboard> selectOnboardByManagerName(String managerName){
+		return this.selectOnboardbyOneField("managerName", new Object[] {"%"+managerName+"%"});
+	}
+	
+	public List<Onboard> selectOnboardByOnboardStatus(String onboardStatus){
+		return this.selectOnboardbyOneField("onboardStatus", new Object[] {"%"+onboardStatus+"%"});
+	}
+	
 	public List<Onboard> selectOnboardbyOneField(String field, Object[] param) {
 		String baseSql = "select * from onboard, candidate, hiring_manager "
 				+ " where onboard.candidate_id = candidate.candidate_id and onboard.hm_id = hiring_manager.hm_id ";
