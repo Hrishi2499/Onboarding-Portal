@@ -5,14 +5,17 @@ Login Page
  
 
 Domain restricted to @accolitedigital.com
+
 ![image](https://user-images.githubusercontent.com/41691630/116663365-a016fa80-a9b4-11eb-8be5-dcd73a5e4608.png)
  
 
 Home Page
+
 ![image](https://user-images.githubusercontent.com/41691630/116663381-a73e0880-a9b4-11eb-89ec-7e1a9ea542ce.png)
 
 
 Candidates List 
+
 ![image](https://user-images.githubusercontent.com/41691630/116663399-ad33e980-a9b4-11eb-949b-4fb7152c4da0.png)
  
 
@@ -25,6 +28,7 @@ Create Onboard Page (on clicking the Onboard button)
  
 
 Successful Onboard Creation
+
 ![image](https://user-images.githubusercontent.com/41691630/116663456-c0df5000-a9b4-11eb-9133-1ab2a70730d0.png)
  
 
@@ -58,6 +62,7 @@ Logs Search (Options: Id, User, Date, Month, Year)
 
 
 Test Coverage (96.8%)
+
 ![image](https://user-images.githubusercontent.com/41691630/116663636-03a12800-a9b5-11eb-8c9e-5d581d1dbc22.png)
 
  
