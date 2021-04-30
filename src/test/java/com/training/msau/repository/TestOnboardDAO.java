@@ -24,30 +24,30 @@ public class TestOnboardDAO {
 	
 	@Test
 	public void testSelectAll(){
-		assertEquals(5, onboardDAO.selectAllOnboards().size());
+		assertEquals(7, onboardDAO.selectAllOnboards().size());
 	}
 	
 	@Test
 	public void testSelectOnboardbyCandidateId(){
-		Onboard onboard = onboardDAO.selectOnboardByCandidateId(7).get(0); 
+		Onboard onboard = onboardDAO.selectOnboardByCandidateId(6).get(0); 
 		assertNotNull(onboard);
-		assertEquals(7, onboard.getCandidateId());
-		assertEquals(41, onboard.getOnboardId());
+		assertEquals(6, onboard.getCandidateId());
+		assertEquals(48, onboard.getOnboardId());
 	}
 	
 	@Test
 	public void testSelectOnboardbyOnboardId(){
-		Onboard onboard = onboardDAO.selectOnboardByOnboardId(41).get(0); 
+		Onboard onboard = onboardDAO.selectOnboardByOnboardId(48).get(0); 
 		assertNotNull(onboard);
-		assertEquals(41, onboard.getOnboardId());
-		assertEquals(7, onboard.getCandidateId());
+		assertEquals(48, onboard.getOnboardId());
+		assertEquals(6, onboard.getCandidateId());
 	}
 	
 	@Test
 	public void testSelectOnboardbyHmId(){
 		List<Onboard> onboards = onboardDAO.selectOnboardByHmId(101); 
 		assertNotNull(onboards);
-		assertEquals(3, onboards.size());
+		assertEquals(2, onboards.size());
 		for(Onboard o: onboards) {
 			assertEquals(101, o.getHmId());
 		}
@@ -67,7 +67,7 @@ public class TestOnboardDAO {
 	public void testSelectOnboardbySkill(){
 		List<Onboard> onboards = onboardDAO.selectOnboardBySkill("Java"); 
 		assertNotNull(onboards);
-		assertEquals(2, onboards.size());
+		assertEquals(1, onboards.size());
 		for(Onboard o: onboards) {
 			assertEquals("Java", o.getCandidate().getSkill());
 		}
@@ -97,7 +97,7 @@ public class TestOnboardDAO {
 	public void testSelectOnboardbyCollege(){
 		List<Onboard> onboards = onboardDAO.selectOnboardByCollege("DJ"); 
 		assertNotNull(onboards);
-		assertEquals(3, onboards.size());
+		assertEquals(2, onboards.size());
 		for(Onboard o: onboards) {
 			assertTrue(o.getCandidate().getCollege().contains("DJ"));
 		}
@@ -107,7 +107,7 @@ public class TestOnboardDAO {
 	public void testSelectOnboardbyManager(){
 		List<Onboard> onboards = onboardDAO.selectOnboardByManagerName("Manager"); 
 		assertNotNull(onboards);
-		assertEquals(5, onboards.size());
+		assertEquals(7, onboards.size());
 		for(Onboard o: onboards) {
 			assertTrue(o.getHiringManager().getName().contains("Manager"));
 		}
@@ -117,7 +117,7 @@ public class TestOnboardDAO {
 	public void testSelectOnboardbyOnboardStatus(){
 		List<Onboard> onboards = onboardDAO.selectOnboardByOnboardStatus("Completed"); 
 		assertNotNull(onboards);
-		assertEquals(3, onboards.size());
+		assertEquals(4, onboards.size());
 		for(Onboard o: onboards) {
 			assertTrue(o.getOnboardStatus().contains("Completed"));
 		}
@@ -127,11 +127,11 @@ public class TestOnboardDAO {
 	@Test
 	public void testAddOnboard(){
 		Onboard onboard = new Onboard();
-		onboard.setCandidateId(3);
+		onboard.setCandidateId(4);
 		onboard.setHmId(101);
 		onboard = onboardDAO.addOnboard(onboard).get(0);
 		assertNotNull(onboard);
-		Onboard newOnboard = onboardDAO.selectOnboardbyOneField("candidateId", new Object[] {3}).get(0);
+		Onboard newOnboard = onboardDAO.selectOnboardbyOneField("candidateId", new Object[] {4}).get(0);
 		assertEquals(newOnboard.getCandidateId(), onboard.getCandidateId());
 		assertEquals(newOnboard.getOnboardId(), onboard.getOnboardId());
 		assertEquals(newOnboard.getHmId(), onboard.getHmId());

@@ -137,8 +137,8 @@ public class TestOnboardLogController {
     	this.mockMvc.perform(get(baseURL + "/onboardLogs/date=2021-04-29"))
     				.andExpect(status().isOk())
     				.andExpect(jsonPath("$.size()", is(2)))
-    				.andExpect(jsonPath("$[0].timestamp", stringContainsInOrder("2021-04-29")))
-    				.andExpect(jsonPath("$[1].timestamp", stringContainsInOrder("2021-04-29")));
+    				.andExpect(jsonPath("$[0].timestamp", stringContainsInOrder("2021-04-30")))
+    				.andExpect(jsonPath("$[1].timestamp", stringContainsInOrder("2021-04-30")));
 	}
 	
 	@Test

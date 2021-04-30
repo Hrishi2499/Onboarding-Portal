@@ -19,7 +19,7 @@ public class TestCandidateDAO {
 	
 	@Test
 	public void testSelectAllCandidate(){
-		assertEquals(8, candidateDAO.selectAllCandidate().size());
+		assertEquals(10, candidateDAO.selectAllCandidate().size());
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class TestCandidateDAO {
 	public void testSelectByCollege() {
 		String college = "SP";
 		List<Candidate> candidates = candidateDAO.selectByCollege("%"+college+"%");
-		assertEquals(5, candidates.size());
+		assertEquals(6, candidates.size());
 		for(Candidate c: candidates) {
 			assertTrue(c.getCollege().contains(college));
 		}
@@ -61,7 +61,7 @@ public class TestCandidateDAO {
 	public void testSelectBySkill() {
 		String skill = "Java";
 		List<Candidate> candidates = candidateDAO.selectBySkill("%"+skill+"%"); 
-		assertEquals(3, candidates.size());
+		assertEquals(4, candidates.size());
 		for(Candidate c: candidates) {
 			assertEquals(skill, c.getSkill());
 		}
