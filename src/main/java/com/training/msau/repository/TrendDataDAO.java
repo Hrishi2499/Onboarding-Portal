@@ -18,6 +18,7 @@ public class TrendDataDAO {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
 	public int getYearCount() {
 		String sql = "select count(distinct(year(eta))) as count from onboard";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Integer>(){
@@ -67,7 +68,7 @@ public class TrendDataDAO {
 		});
 	}
 	
-	public TrendData getTrendByLocation() {
+	public TrendData getTrendByLocation() { //Returns trends across locations, across the years
 		int yearCount = this.getYearCount();
 		int colCount = this.getLocationCount();
 		
@@ -105,7 +106,7 @@ public class TrendDataDAO {
 		});
 	}
 	
-	public TrendData getTrendByManager() {
+	public TrendData getTrendByManager() { //Returns trends across Managers, across the years
 		int yearCount = this.getYearCount();
 		int colCount = this.getHmIdCount();
 		
@@ -143,7 +144,7 @@ public class TrendDataDAO {
 		});
 	}
 	
-	public TrendData getTrendBySkills() {
+	public TrendData getTrendBySkills() { //Returns trends across skills, across the years
 		int yearCount = this.getYearCount();
 		int colCount = this.getSkillCount();
 		

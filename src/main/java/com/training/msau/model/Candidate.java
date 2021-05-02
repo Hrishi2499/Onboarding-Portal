@@ -62,8 +62,5 @@ public class Candidate {
 		this.skill = skill;
 		return this;
 	}
-
-	
-	
 	
 }

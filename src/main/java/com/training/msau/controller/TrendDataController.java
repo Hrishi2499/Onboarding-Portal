@@ -21,10 +21,12 @@ public class TrendDataController {
 	public TrendData getTrendByLocation(){
 		return trendDataDAO.getTrendByLocation();
 	}
+	
 	@GetMapping("/trends/manager")
 	public TrendData getTrendByManager(){
 		return trendDataDAO.getTrendByManager();
 	}
+	
 	@GetMapping("/trends/skill")
 	public TrendData getTrendBySkills(){
 		return trendDataDAO.getTrendBySkills();

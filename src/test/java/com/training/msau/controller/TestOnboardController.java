@@ -3,48 +3,41 @@ package com.training.msau.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 
-
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.training.msau.model.Candidate;
 import com.training.msau.model.Onboard;
-import com.training.msau.repository.OnboardDAO;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertTrue;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = OnboardController.class)
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestOnboardController {
-	@InjectMocks
-    OnboardController onboardController;
-     
-    @MockBean
-    OnboardDAO onboardDAO;
-    
-    @Autowired                           
-    private MockMvc mockMvc;
+	 List<Onboard> list;
+	 @LocalServerPort
+	 private int port;
 
-	List<Onboard> list;
+	 TestRestTemplate restTemplate = new TestRestTemplate();
+	 
+	 HttpHeaders headers = new HttpHeaders();
+	 HttpEntity<List<Onboard>> entity = new HttpEntity<List<Onboard>>(null, headers);
+	 @SuppressWarnings("unchecked")
+	 Class<List<Onboard>> onb = (Class) List.class;
 	
 	String baseURL = "http://localhost:8080/api/v1";
 	
@@ -53,159 +46,187 @@ public class TestOnboardController {
 		list = new ArrayList<>();
 		Onboard o = new Onboard();
 		Candidate c = new Candidate();
-		c.setCandidateId(1);
+		c.setCandidateId(4);
 		c.setCollege("DJ");
 		c.setFirstName("Hrishi");
 		c.setLastName("Shenai");
 		c.setSkill("Java");
 		o.setCandidate(c);
-		o.setCandidateId(1);
-		o.setOnboardId(42);
+		o.setCandidateId(4);
+		//o.setOnboardId(42);
 		o.setHmId(101);
-		o.setLocation("Mumbai");
-		o.setOnboardStatus("Completed");
+		o.setLocation("Sample");
+		o.setOnboardStatus("Sample");
 		list.add(o);
 	}
 	
 	@Test
 	public void testGetAllOnboards() throws Exception{
-    	when(onboardDAO.selectAllOnboards()).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)));
+
+    	URI url = new URI(baseURL + "/onboards");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, onb);
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 7);
+        
+        
 	}
 	
 	@Test
 	public void testGetOnboardbyCandidateId() throws Exception{
-    	when(onboardDAO.selectOnboardByCandidateId(1)).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/candidateId=1"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].candidateId", is(1)));
+     	
+    	URI url = new URI(baseURL + "/onboards/candidateId=1");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 1);
+        assertTrue(response.getBody().get(0).getCandidateId() == 1);
 	}
 	
 	@Test
 	public void testGetOnboardbyOnboardId() throws Exception{
-    	when(onboardDAO.selectOnboardByOnboardId(42)).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/onboardId=42"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)));
+    	URI url = new URI(baseURL + "/onboards/onboardId=52");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 1);
+        assertTrue(response.getBody().get(0).getOnboardId() == 52);
 	}
 	
 	@Test
 	public void testGetOnboardbyHmId() throws Exception{
-    	when(onboardDAO.selectOnboardByHmId(101)).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/hmId=101"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].hmId", is(101)));
+    	URI url = new URI(baseURL + "/onboards/hmId=101");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 2);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getHmId() == 101);
+        }
 	}
 	
 	@Test
 	public void testGetOnboardbyFirstName() throws Exception{
-    	when(onboardDAO.selectOnboardByFirstName("Hrishi")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/firstName=Hrishi"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].candidate.firstName", is("Hrishi")));
+
+    	URI url = new URI(baseURL + "/onboards/firstName=Hrishi");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 2);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getCandidate().getFirstName().contains("Hrishi"));
+        }
 	}
 	
 	@Test
 	public void testGetOnboardbyLastName() throws Exception{
-    	when(onboardDAO.selectOnboardByLastName("Shenai")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/lastName=Shenai"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].candidate.lastName", is("Shenai")));
+    	
+    	URI url = new URI(baseURL + "/onboards/lastName=Shenai");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 1);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getCandidate().getLastName().contains("Shenai"));
+        }
 	}
 	
 	@Test
 	public void testGetOnboardbyLocation() throws Exception{
-    	when(onboardDAO.selectOnboardByLocation("Mumbai")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/location=Mumbai"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].location", is("Mumbai")));
+
+    	URI url = new URI(baseURL + "/onboards/location=Mumbai");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 2);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getLocation().contains("Mumbai"));
+        }
 	}
 	
 	@Test
 	public void testGetOnboardbyCollege() throws Exception{
-    	when(onboardDAO.selectOnboardByCollege("DJ")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/college=DJ"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].candidate.college", is("DJ")));
+    	URI url = new URI(baseURL + "/onboards/college=DJ");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 2);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getCandidate().getCollege().contains("DJ"));
+        }
+    	
 	}
 	
 	@Test
 	public void testGetOnboardbySkill() throws Exception{
-    	when(onboardDAO.selectOnboardBySkill("Java")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/skill=Java"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].candidate.skill", is("Java")));
+    	URI url = new URI(baseURL + "/onboards/skill=Angular");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 3);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getCandidate().getSkill().contains("Angular"));
+        }
+    	
+    	
 	}
 	
 	@Test
 	public void testGetOnboardbyOnboardStatus() throws Exception{
-    	when(onboardDAO.selectOnboardByOnboardStatus("Completed")).thenReturn(list);
-    	this.mockMvc.perform(get(baseURL + "/onboards/onboardStatus=Completed"))
-    				.andExpect(status().isOk())
-    				.andExpect(jsonPath("$.size()", is(1)))
-    				.andExpect(jsonPath("$[0].onboardId", is(42)))
-    				.andExpect(jsonPath("$[0].onboardStatus", is("Completed")));
+ 
+    	URI url = new URI(baseURL + "/onboards/onboardStatus=Completed");
+        ResponseEntity<List<Onboard>> response = restTemplate.exchange( url, HttpMethod.GET, entity, 
+        										new ParameterizedTypeReference<List<Onboard>>() { });
+      
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getBody().size() == 2);
+        for(Onboard o: response.getBody()) {
+            assertTrue(o.getOnboardStatus().contains("Completed"));
+        }
+    	
 	}
 	
 	@Test
 	public void testAddOnboard() throws Exception{
-		when(onboardDAO.addOnboard(Mockito.any(Onboard.class))).thenReturn(list);
-		JsonMapper jm = new JsonMapper();
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.put(baseURL + "/onboards")
-				.accept(MediaType.APPLICATION_JSON).content(jm.writeValueAsBytes(list.get(0)))
-				.contentType(MediaType.APPLICATION_JSON);
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		URI url = new URI(baseURL + "/onboards");
+		HttpEntity<Onboard> entity = new HttpEntity<Onboard>(list.get(0), headers);
 
-		MockHttpServletResponse response = result.getResponse();
-
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, 
+        											new ParameterizedTypeReference<String>() { });
+        System.out.println(response.getStatusCode());
+        assertTrue(response.getStatusCode()== HttpStatus.OK);
+	
 	}
 	
 	@Test
 	public void testDeleteOnboard() throws Exception{
-		when(onboardDAO.deleteOnboard(Mockito.any(Long.class), Mockito.any(String.class), Mockito.any(String.class))).thenReturn(list);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.delete(baseURL + "/onboards/onboardId=10&user=Hrishi&userEmail=Sample")
-				.accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON);
+		URI url = new URI(baseURL + "/onboards");
+		HttpEntity<Onboard> entity = new HttpEntity<Onboard>(list.get(0), headers);
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-		MockHttpServletResponse response = result.getResponse();
-
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, 
+        											new ParameterizedTypeReference<String>() { });
+        System.out.println(response.getStatusCode());
+        assertTrue(response.getStatusCode()== HttpStatus.OK);
 	}
 	
 	@Test
 	public void testUpdateOnboard() throws Exception{
-		when(onboardDAO.updateOnboard(Mockito.any(Onboard.class))).thenReturn(list);
-		JsonMapper jm = new JsonMapper();
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post(baseURL + "/onboards")
-				.accept(MediaType.APPLICATION_JSON).content(jm.writeValueAsBytes(list.get(0)))
-				.contentType(MediaType.APPLICATION_JSON);
+		URI url = new URI(baseURL + "/onboards/onboardId=106&user=null&userEmail=null");
+		HttpEntity<Object> entity = new HttpEntity<Object>(null, headers);
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-		MockHttpServletResponse response = result.getResponse();
-
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, entity, 
+        											new ParameterizedTypeReference<String>() { });
+        System.out.println(response.getStatusCode());
+        assertTrue(response.getStatusCode()== HttpStatus.OK);
 	}
 }

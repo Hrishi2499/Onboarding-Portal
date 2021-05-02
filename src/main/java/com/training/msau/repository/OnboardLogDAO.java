@@ -25,13 +25,13 @@ import com.training.msau.model.OnboardMapper;
 public class OnboardLogDAO {
 	
 	@Autowired
-	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	OnboardLogMapper onboardLogMapper = new OnboardLogMapper();
+	OnboardLogMapper onboardLogMapper;
 	
 	@Autowired
-	OnboardMapper onboardMapper = new OnboardMapper();
+	OnboardMapper onboardMapper;
 	
 	public List<OnboardLog> selectAllLogs(){
 		return this.selectOnboardLogbyOneField("all", null);
@@ -65,7 +65,7 @@ public class OnboardLogDAO {
 	public List<OnboardLog> selectOnboardLogbyOneField(String field, Object[] param) {
 		String baseSql = "select * from onboard_log ";
 		
-		switch(field) {
+		switch(field) { //Modifies the base query to generate desired output
 			case "all"        : break;
 			case "candidateId": baseSql +=  " where candidate_id = ? ";
 								break;

@@ -29,19 +29,19 @@ import com.training.msau.exception.ResourceNotFoundException;
 public class OnboardDAO {
 	
 	@Autowired
-	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	OnboardMapper onboardMapper = new OnboardMapper();
+	OnboardMapper onboardMapper;
 	
 	@Autowired
-	CandidateMapper candidateMapper = new CandidateMapper();
+	CandidateMapper candidateMapper;
 	
 	@Autowired
-	HiringManagerMapper hmMapper = new HiringManagerMapper();
+	HiringManagerMapper hmMapper;
 	
 	@Autowired
-	OnboardLogDAO onboardLogDAO = new OnboardLogDAO();
+	OnboardLogDAO onboardLogDAO;
 	
 	public List<Onboard> selectAllOnboards(){
 		return this.selectOnboardbyOneField("all", null);
@@ -91,7 +91,7 @@ public class OnboardDAO {
 		String baseSql = "select * from onboard, candidate, hiring_manager "
 				+ " where onboard.candidate_id = candidate.candidate_id and onboard.hm_id = hiring_manager.hm_id ";
 		
-		switch(field) {
+		switch(field) { //Modifies the base query to generate desired output
 			case "all"        : break;
 			case "candidateId": baseSql +=  " and onboard.candidate_id = ?";
 								break;

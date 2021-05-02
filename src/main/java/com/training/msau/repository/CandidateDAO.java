@@ -14,10 +14,10 @@ import com.training.msau.model.Candidate;
 public class CandidateDAO {
 	
 	@Autowired
-	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	CandidateMapper candidateMapper = new CandidateMapper();
+	CandidateMapper candidateMapper;
 	
 	
 	public List<Candidate> selectAllCandidate(){

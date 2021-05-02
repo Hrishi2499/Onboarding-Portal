@@ -41,6 +41,4 @@ public class TrendData {
 		return this;
 	}	
 	
-	
-	
 }

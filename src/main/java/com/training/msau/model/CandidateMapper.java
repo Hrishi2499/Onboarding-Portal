@@ -13,6 +13,7 @@ public class CandidateMapper implements RowMapper<Candidate>{
 	public Candidate mapRow(ResultSet rs, int rowNum) throws SQLException{
 		
 		Candidate candidate = new Candidate();
+		
 		candidate.setCandidateId((long)rs.getLong("candidate_id"));
 		candidate.setCollege((String)rs.getString("college"));
 		candidate.setEmail((String)rs.getString("email"));

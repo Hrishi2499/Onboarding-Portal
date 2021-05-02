@@ -39,5 +39,4 @@ public class HiringManager {
 		return this;
 	}
 	
-	
 }
