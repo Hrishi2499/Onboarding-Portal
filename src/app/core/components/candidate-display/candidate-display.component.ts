@@ -22,6 +22,7 @@ export class CandidateDisplayComponent implements OnInit {
   private getAllCandidates(){
       this.candidateService.getFullCandidateList().subscribe((data) =>{
         this.candidates = data;  
+        console.log(data[0]);
       }, () =>{
         alert("Some error occured, Please try again later");
         this.router.navigate(['home'])

@@ -6,4 +6,5 @@ export class Candidate {
     college: string;
     onboardStarted: boolean;
     skill: string;
+    skills: string[];
 }
